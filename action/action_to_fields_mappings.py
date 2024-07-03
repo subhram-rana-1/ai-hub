@@ -1,5 +1,5 @@
-from api_schemas.enums import ActionEnum
+from api_schemas.enums import ActionType
 
 ACTION_TO_FIELD_MAPPING = {
-    ActionEnum.CLOSE_SLOT: ['experience_name', 'date', 'time'],
+    ActionType.CLOSE_SLOT: ['experience_name', 'date', 'time'],
 }

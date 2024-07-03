@@ -1,6 +1,6 @@
 from typing import List
 
-from action.api_schemas.enums import ActionEnum
+from action.api_schemas.enums import ActionType
 
 
 class NextAction:
@@ -16,7 +16,7 @@ class NextAction:
 class ActionExecutionResponse:
     def __init__(
             self,
-            action: ActionEnum,
+            action: ActionType,
             fields: dict,
             next_action: NextAction,
     ):
