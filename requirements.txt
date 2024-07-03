@@ -1,1 +1,2 @@
 Django==2.2.24
+marshmallow==2.19.5
