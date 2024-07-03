@@ -23,4 +23,5 @@ class UserPromptProcessor:
         return self
 
 
-user_prompt_processor = UserPromptProcessor()
+def new_user_prompt_processor() -> UserPromptProcessor:
+    return UserPromptProcessor()

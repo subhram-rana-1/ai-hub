@@ -6,13 +6,10 @@ from django.views.decorators.csrf import csrf_exempt
 
 from action.api_schemas.requests import ActionExecutionRequest
 from action.api_schemas.responses import ActionExecutionResponse
-from action.user_prompt_processor import UserPromptProcessor
-from action.user_prompt_processor import user_prompt_processor
+from action.user_prompt_processor import UserPromptProcessor, new_user_prompt_processor
 
 
 class ActionHandler:
-    def __init__(self):
-        prompt_processor = UserPromptProcessor()
 
     @staticmethod
     @require_POST
@@ -28,10 +25,20 @@ class ActionHandler:
 
         # call gpt api
         prompt_processor: UserPromptProcessor =\
-            user_prompt_processor.process_prompt(action_request.user_prompt)
+            new_user_prompt_processor().process_prompt(action_request.user_prompt)
 
         return JsonResponse(ActionExecutionResponse(
             action=prompt_processor.action,
             fields=prompt_processor.fields,
             next_action=prompt_processor.next_action,
         ).to_dict())
+
+    @staticmethod
+    @require_POST
+    @csrf_exempt
+    def refine(
+            request: HttpRequest,
+            *args,
+            **kwargs
+    ) -> JsonResponse:
+        ...

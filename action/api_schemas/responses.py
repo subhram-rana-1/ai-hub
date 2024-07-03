@@ -30,3 +30,7 @@ class ActionExecutionResponse:
             'fields': self.fields,
             'next_action': self.next_action,
         }
+
+
+class UserInputRefinementResponse(ActionExecutionResponse):
+    pass

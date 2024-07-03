@@ -4,7 +4,15 @@ from action.handler import ActionHandler
 
 urlpatterns = [
     path(
-        'actions',
+        'actions/execute',
         ActionHandler.execute,
-        name='execute-action'),
+        name='execute-action',
+    ),
+
+    path(
+        'actions/refine',
+        ActionHandler.refine,
+        name='execute-action'
+    ),
+
     ]
