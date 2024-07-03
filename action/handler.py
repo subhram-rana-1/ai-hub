@@ -4,10 +4,18 @@ from django.views.decorators.http import require_POST
 from django.http import JsonResponse, HttpRequest
 from django.views.decorators.csrf import csrf_exempt
 
+from action.api_schemas.enums import ActionEnum
 from action.api_schemas.requests import ActionExecutionRequest
+from action.api_schemas.responses import ActionExecutionResponse, NextAction
+from action.user_prompt_processor import UserPromptProcessor
+from ai_hub.gpt.client import gpt_client
+from action.user_prompt_processor import user_prompt_processor
 
 
 class ActionHandler:
+    def __init__(self):
+        prompt_processor = UserPromptProcessor()
+
     @staticmethod
     @require_POST
     @csrf_exempt
@@ -18,5 +26,12 @@ class ActionHandler:
     ) -> JsonResponse:
         json_body = json.loads(request.body)
         action_request: ActionExecutionRequest.deserialize_from_json(json_body)
-        # todo: add logic
-        return JsonResponse('anything', safe=False)
+
+        # call gpt api
+        prompt_processor = user_prompt_processor.process_prompt()
+
+        return JsonResponse(ActionExecutionResponse(
+            action=prompt_processor.action,
+            fields=prompt_processor.fields,
+            next_action=prompt_processor.next_action,
+        ))
